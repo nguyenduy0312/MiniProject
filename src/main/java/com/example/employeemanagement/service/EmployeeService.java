@@ -23,4 +23,12 @@ public class EmployeeService {
     public Employee createEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
+
+    public List<Employee> searchByName(String name) {
+        return employeeRepository.findByFullNameContainingIgnoreCase(name);
+    }
+
+    public List<Employee> searchByDepartment(String department) {
+        return employeeRepository.findByDepartmentNameContainingIgnoreCase(department);
+    }
 }

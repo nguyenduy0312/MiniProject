@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
 
 import com.example.employeemanagement.entity.Employee;
 import com.example.employeemanagement.service.EmployeeService;
@@ -29,6 +31,28 @@ public class EmployeeController {
         List<Employee> employees = employeeService.getAllEmployees();
 
         // ResponseEntity lets us control both response body and HTTP status.
+        if (employees.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(employees);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Employee>> searchEmployees(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String department
+    ) {
+        List<Employee> employees;
+
+        if (StringUtils.hasText(name)) {
+            employees = employeeService.searchByName(name);
+        } else if (StringUtils.hasText(department)) {
+            employees = employeeService.searchByDepartment(department);
+        } else {
+            employees = employeeService.getAllEmployees();
+        }
+
         if (employees.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

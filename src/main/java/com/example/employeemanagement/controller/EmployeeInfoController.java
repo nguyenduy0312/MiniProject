@@ -1,5 +1,6 @@
 package com.example.employeemanagement.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,11 +23,13 @@ public class EmployeeInfoController {
     }
 
     @GetMapping("/employee/info")
-    public EmployeeInfoResponse getEmployeeInfo() {
+    public ResponseEntity<EmployeeInfoResponse> getEmployeeInfo() {
         String employeeCode = utilityService.generateEmployeeCode();
         String formattedName = utilityService.formatName(" Nguyen Van A ");
         String encodedPassword = passwordEncoder.encode("password123");
 
-        return new EmployeeInfoResponse(employeeCode, formattedName, encodedPassword);
+        EmployeeInfoResponse response = new EmployeeInfoResponse(employeeCode, formattedName, encodedPassword);
+
+        return ResponseEntity.ok(response);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.employeemanagement.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -7,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @GetMapping("/hello")
-    public String hello() {
-        return "Hello Employee Management System!";
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok("Hello Employee Management System!");
     }
 }

@@ -3,6 +3,7 @@ package com.example.employeemanagement.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.example.employeemanagement.entity.Employee;
 import com.example.employeemanagement.repository.EmployeeRepository;
@@ -24,11 +25,15 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public List<Employee> searchByName(String name) {
-        return employeeRepository.findByFullNameContainingIgnoreCase(name);
-    }
+    public List<Employee> searchEmployees(String name, String department) {
+        if (StringUtils.hasText(name)) {
+            return employeeRepository.findByFullNameContainingIgnoreCase(name);
+        }
 
-    public List<Employee> searchByDepartment(String department) {
-        return employeeRepository.findByDepartmentNameContainingIgnoreCase(department);
+        if (StringUtils.hasText(department)) {
+            return employeeRepository.findByDepartment_NameContainingIgnoreCase(department);
+        }
+
+        return getAllEmployees();
     }
 }

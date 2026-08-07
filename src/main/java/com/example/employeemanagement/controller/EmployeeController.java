@@ -2,6 +2,7 @@ package com.example.employeemanagement.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.util.StringUtils;
 
 import com.example.employeemanagement.entity.Employee;
 import com.example.employeemanagement.service.EmployeeService;
@@ -43,15 +43,7 @@ public class EmployeeController {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String department
     ) {
-        List<Employee> employees;
-
-        if (StringUtils.hasText(name)) {
-            employees = employeeService.searchByName(name);
-        } else if (StringUtils.hasText(department)) {
-            employees = employeeService.searchByDepartment(department);
-        } else {
-            employees = employeeService.getAllEmployees();
-        }
+        List<Employee> employees = employeeService.searchEmployees(name, department);
 
         if (employees.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -68,6 +60,6 @@ public class EmployeeController {
     ) {
         Employee createdEmployee = employeeService.createEmployee(employee);
 
-        return ResponseEntity.status(201).body(createdEmployee);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdEmployee);
     }
 }

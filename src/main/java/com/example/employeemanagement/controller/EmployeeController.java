@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.employeemanagement.entity.Department;
 import com.example.employeemanagement.entity.Employee;
 
 @RestController
@@ -18,10 +19,14 @@ import com.example.employeemanagement.entity.Employee;
 @RequestMapping("/employees")
 public class EmployeeController {
 
+    private final Department engineering = new Department(1L, "Engineering");
+    private final Department humanResources = new Department(2L, "Human Resources");
+    private final Department finance = new Department(3L, "Finance");
+
     private final List<Employee> employees = new ArrayList<>(List.of(
-            new Employee(1L, "EMP001", "Nguyen Van A", "Engineering", "nguyenvana@example.com"),
-            new Employee(2L, "EMP002", "Tran Thi B", "Human Resources", "tranthib@example.com"),
-            new Employee(3L, "EMP003", "Le Van C", "Finance", "levanc@example.com")
+            new Employee(1L, "EMP001", "Nguyen Van A", "nguyenvana@example.com", engineering),
+            new Employee(2L, "EMP002", "Tran Thi B", "tranthib@example.com", humanResources),
+            new Employee(3L, "EMP003", "Le Van C", "levanc@example.com", finance)
     ));
     private final AtomicLong nextId = new AtomicLong(4L);
 

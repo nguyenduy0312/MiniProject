@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.example.employeemanagement.entity.Employee;
+import com.example.employeemanagement.exception.EmployeeNotFoundException;
 import com.example.employeemanagement.repository.EmployeeRepository;
 
 @Service
@@ -19,6 +20,11 @@ public class EmployeeService {
 
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
+    }
+
+    public Employee getEmployeeById(Long id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
     public Employee createEmployee(Employee employee) {

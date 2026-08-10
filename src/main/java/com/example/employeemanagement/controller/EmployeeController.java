@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.employeemanagement.entity.Employee;
 import com.example.employeemanagement.service.EmployeeService;
+import jakarta.validation.Valid;
 
 @RestController
 // @RequestMapping defines the base URL path for all APIs in this controller.
@@ -56,7 +57,7 @@ public class EmployeeController {
     @PostMapping
     public ResponseEntity<Employee> createEmployee(
             // @RequestBody maps the JSON request body to a Java object.
-            @RequestBody Employee employee
+            @Valid @RequestBody Employee employee
     ) {
         Employee createdEmployee = employeeService.createEmployee(employee);
 

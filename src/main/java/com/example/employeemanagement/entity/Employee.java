@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,8 +28,10 @@ public class Employee {
 
     private String employeeCode;
 
+    @NotBlank(message = "Name must not be blank")
     private String fullName;
 
+    @Email(message = "Email must be valid")
     private String email;
 
     @ManyToOne

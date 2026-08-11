@@ -7,6 +7,26 @@
 </head>
 <body>
     <h1>Employee List</h1>
-    <p>Thymeleaf setup is working.</p>
+
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Employee Code</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Department</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="employee : ${employees}">
+                <td th:text="${employee.id}">1</td>
+                <td th:text="${employee.employeeCode}">EMP001</td>
+                <td th:text="${employee.fullName}">Nguyen Van A</td>
+                <td th:text="${employee.email}">nguyenvana@example.com</td>
+                <td th:text="${employee.department != null ? employee.department.name : 'N/A'}">Engineering</td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Employees</title>
+</head>
+<body>
+    <h1>Search Employees</h1>
+
+    <form th:action="@{/employees/search}" method="get">
+        <div>
+            <label for="name">Name</label>
+            <input id="name" type="text" name="name" th:value="${name}">
+        </div>
+
+        <div>
+            <label for="department">Department</label>
+            <input id="department" type="text" name="department" th:value="${department}">
+        </div>
+
+        <button type="submit">Search</button>
+    </form>
+
+    <p th:if="${searched and #lists.isEmpty(employees)}">
+        No employees found.
+    </p>
+
+    <table th:if="${!#lists.isEmpty(employees)}" border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Employee Code</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Department</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="employee : ${employees}">
+                <td th:text="${employee.id}">1</td>
+                <td th:text="${employee.employeeCode}">EMP001</td>
+                <td th:text="${employee.fullName}">Nguyen Van A</td>
+                <td th:text="${employee.email}">nguyenvana@example.com</td>
+                <td th:text="${employee.department != null ? employee.department.name : 'N/A'}">Engineering</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        <a th:href="@{/employees/list}">Back to Employee List</a>
+    </p>
+</body>
+</html>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -43,6 +44,7 @@ public class EmployeeService {
                 .orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
+    @CacheEvict(cacheNames = "employeeReports", key = "'employeeCount'")
     public Employee createEmployee(Employee employee) {
         try {
             prepareDepartment(employee);
@@ -96,6 +98,7 @@ public class EmployeeService {
         }
     }
 
+    @CacheEvict(cacheNames = "employeeReports", key = "'employeeCount'")
     public void deleteEmployee(Long id) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> {

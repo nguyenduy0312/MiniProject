@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -28,6 +29,13 @@ public class EmployeeService {
 
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
+    }
+
+    @Cacheable(cacheNames = "employeeReports", key = "'employeeCount'")
+    public long countEmployees() {
+        logger.info("Querying database for employee count");
+
+        return employeeRepository.count();
     }
 
     public Employee getEmployeeById(Long id) {

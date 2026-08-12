@@ -3,6 +3,12 @@ spring:
     name: employee-management
   profiles:
     active: dev
+  cache:
+    type: caffeine
+    cache-names:
+      - employeeReports
+    caffeine:
+      spec: expireAfterWrite=60s,maximumSize=100
 
 logging:
   level:

@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: employee-management
+  profiles:
+    active: dev
+
+logging:
+  level:
+    root: info
+    com.example.employeemanagement: info

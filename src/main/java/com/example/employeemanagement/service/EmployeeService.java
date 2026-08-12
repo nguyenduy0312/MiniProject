@@ -36,9 +36,77 @@ public class EmployeeService {
     }
 
     public Employee createEmployee(Employee employee) {
-        prepareDepartment(employee);
+        try {
+            prepareDepartment(employee);
 
-        return employeeRepository.save(employee);
+            Employee savedEmployee = employeeRepository.save(employee);
+            logger.info(
+                    "Created employee: employeeId={}, employeeCode={}, fullName={}",
+                    savedEmployee.getId(),
+                    savedEmployee.getEmployeeCode(),
+                    savedEmployee.getFullName()
+            );
+
+            return savedEmployee;
+        } catch (RuntimeException exception) {
+            logger.error(
+                    "Failed to create employee: employeeCode={}, fullName={}",
+                    employee.getEmployeeCode(),
+                    employee.getFullName(),
+                    exception
+            );
+            throw exception;
+        }
+    }
+
+    public Employee updateEmployee(Long id, Employee employeeDetails) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> {
+                    logger.warn("Employee not found for update: id={}", id);
+                    return new EmployeeNotFoundException(id);
+                });
+
+        try {
+            employee.setEmployeeCode(employeeDetails.getEmployeeCode());
+            employee.setFullName(employeeDetails.getFullName());
+            employee.setEmail(employeeDetails.getEmail());
+            employee.setDepartment(employeeDetails.getDepartment());
+            prepareDepartment(employee);
+
+            Employee updatedEmployee = employeeRepository.save(employee);
+            logger.info(
+                    "Updated employee: employeeId={}, employeeCode={}, fullName={}",
+                    updatedEmployee.getId(),
+                    updatedEmployee.getEmployeeCode(),
+                    updatedEmployee.getFullName()
+            );
+
+            return updatedEmployee;
+        } catch (RuntimeException exception) {
+            logger.error("Failed to update employee: id={}", id, exception);
+            throw exception;
+        }
+    }
+
+    public void deleteEmployee(Long id) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> {
+                    logger.warn("Employee not found for delete: id={}", id);
+                    return new EmployeeNotFoundException(id);
+                });
+
+        try {
+            employeeRepository.delete(employee);
+            logger.info(
+                    "Deleted employee: employeeId={}, employeeCode={}, fullName={}",
+                    employee.getId(),
+                    employee.getEmployeeCode(),
+                    employee.getFullName()
+            );
+        } catch (RuntimeException exception) {
+            logger.error("Failed to delete employee: id={}", id, exception);
+            throw exception;
+        }
     }
 
     public List<Employee> searchEmployees(String name, String department) {

@@ -1,7 +1,10 @@
 package com.example.employeemanagement.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.example.employeemanagement.dto.DepartmentEmployeeStatisticsResponse;
 import com.example.employeemanagement.dto.EmployeeStatisticsResponse;
 import com.example.employeemanagement.repository.EmployeeStatisticsRepository;
 
@@ -17,5 +20,9 @@ public class EmployeeStatisticsService {
     public EmployeeStatisticsResponse getTotalEmployees() {
         long totalEmployees = employeeStatisticsRepository.countTotalEmployees();
         return new EmployeeStatisticsResponse(totalEmployees);
+    }
+
+    public List<DepartmentEmployeeStatisticsResponse> getEmployeeCountByDepartment() {
+        return employeeStatisticsRepository.getEmployeeCountByDepartment();
     }
 }

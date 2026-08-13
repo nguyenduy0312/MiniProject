@@ -41,4 +41,18 @@ class EmployeeStatisticsServiceTest {
         assertEquals("HR", result.get(1).department());
         assertEquals(2L, result.get(1).employeeCount());
     }
+
+    @Test
+    void getStatistics_whenDatabaseHasNoEmployees_shouldReturnZeroAndEmptyList() {
+        when(employeeStatisticsRepository.countTotalEmployees()).thenReturn(0L);
+        when(employeeStatisticsRepository.getEmployeeCountByDepartment()).thenReturn(List.of());
+
+        var total = employeeStatisticsService.getTotalEmployees();
+        var byDepartment = employeeStatisticsService.getEmployeeCountByDepartment();
+
+        assertNotNull(total);
+        assertEquals(0L, total.totalEmployees());
+        assertNotNull(byDepartment);
+        assertEquals(0, byDepartment.size());
+    }
 }

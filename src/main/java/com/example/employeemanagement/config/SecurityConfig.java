@@ -2,6 +2,7 @@ package com.example.employeemanagement.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -20,7 +21,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/actuator/health", "/actuator/metrics").permitAll()
                         .requestMatchers("/auth/register").permitAll()
-                        .requestMatchers("/employees/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/employees", "/employees/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/employees").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/employees/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/employees/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .authenticationProvider(authenticationProvider)

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Statistics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f7fa;
+            color: #1f2937;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+        .summary {
+            font-size: 1.2rem;
+            margin-bottom: 24px;
+            padding: 12px 16px;
+            background: #eef2ff;
+            border-radius: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #d1d5db;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Employee Statistics</h1>
+
+        <div class="summary">
+            <strong>Total Employees:</strong>
+            <span th:text="${totalEmployees}">0</span>
+        </div>
+
+        <h2>Employees by Department</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Department</th>
+                    <th>Employee Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="stat : ${departmentStatistics}">
+                    <td th:text="${stat.department}">IT</td>
+                    <td th:text="${stat.employeeCount}">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
